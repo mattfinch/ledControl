@@ -13,11 +13,9 @@ def set_leds(r,g,b):
 	return
 
 def fade_on():
-	for i in range (0,255):
+	for i in range (0,100):
 		set_leds(0,0,i)
 	return
-
-fade_on()
 
 while True:
 	try:
@@ -26,4 +24,4 @@ while True:
 		set_leds(data["R"],data["G"],data["B"])
 	except:
 		set_leds(0,255,255)
-	time.sleep(.1)
+	time.sleep(.25)
