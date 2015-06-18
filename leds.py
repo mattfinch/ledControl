@@ -4,24 +4,27 @@ import json
 import time
 import sys
 
-def set_leds(r,g,b):
+def set_leds(rgb):
 	pi = pigpio.pi()
-	pi.set_PWM_dutycycle (17, r)
-	pi.set_PWM_dutycycle (22, g)
-	pi.set_PWM_dutycycle (24, b)
+	pi.set_PWM_dutycycle (17, rgb[0])
+	pi.set_PWM_dutycycle (22, rgb[1])
+	pi.set_PWM_dutycycle (24, rgb[2])
 	pi.stop()
 	return
 
-def fade_on():
-	for i in range (0,100):
-		set_leds(0,0,i)
-	return
+led_color = [0,0,0]
+new_led_color = [0,0,0]
 
 while True:
 	try:
 		response = urllib2.urlopen("http://fnest.co.uk/api/rackledcolor")
 		data =  json.load(response)
-		set_leds(data["R"],data["G"],data["B"])
+		new_led_color = [data["R"],data["G"],data["B"]]
 	except:
-		set_leds(0,255,255)
-	time.sleep(.25)
+		new_led_color = [255,127,0]
+
+	if new_led_color != led_color:
+		led_color = new_led_color
+		set_leds(led_color)
+
+	time.sleep(.1)
