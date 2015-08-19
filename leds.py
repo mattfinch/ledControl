@@ -24,4 +24,4 @@ while True:
 
         except:
                 set_leds(json.loads('{"R":255,"G":0,"B":0}'))
-        	time.sleep(.25)
+        time.sleep(.25)
